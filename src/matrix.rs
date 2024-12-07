@@ -5,6 +5,8 @@ use std::{
 
 use anyhow::{anyhow, Result};
 
+use crate::Vector;
+
 /// 矩阵乘法的规则是：两个矩阵相乘时，第一个矩阵的列数必须等于第二个矩阵的行数。
 /// 然后，通过将第一个矩阵的每一行与第二个矩阵的每一列相乘并求和，得到结果矩阵的每一个元素。
 // [[1,2], [1,2], [1,2]] => [1, 2, 1, 2, 1, 2]
@@ -12,6 +14,23 @@ pub struct Matrix<T> {
     rows: usize,
     cols: usize,
     data: Vec<T>,
+}
+
+// pretend this is a heavy operation, CPU intensive
+fn dot_product<T>(a: Vector<T>, b: Vector<T>) -> Result<T>
+where
+    T: Copy + Default + Add<Output = T> + AddAssign + Mul<Output = T>,
+{
+    if a.len() != b.len() {
+        // a.len => a.data.len() (Deref trait)
+        return Err(anyhow!("Vectors must be of the same length"));
+    }
+
+    let mut result = T::default();
+    for i in 0..a.len() {
+        result += a[i] * b[i];
+    }
+    Ok(result)
 }
 
 pub fn multiply<T>(a: &Matrix<T>, b: &Matrix<T>) -> Result<Matrix<T>>
@@ -31,9 +50,22 @@ where
     // 这两个元素相乘的结果累加到 data[i * b.cols + j] 中。
     for i in 0..a.rows {
         for j in 0..b.cols {
-            for k in 0..a.cols {
-                data[i * b.cols + j] += a.data[i * a.cols + k] * b.data[k * b.cols + j];
-            }
+            // for k in 0..a.cols {
+            //     data[i * b.cols + j] += a.data[i * a.cols + k] * b.data[k * b.cols + j];
+            // }
+
+            // 创建矩阵a的第i行和矩阵b的第j列的向量
+            let a_row = Vector::new(&a.data[i * a.cols..(i + 1) * a.cols]);
+            let b_col = Vector::new(
+                b.data[j..]
+                    .iter()
+                    .step_by(b.cols)
+                    .copied()
+                    .collect::<Vec<_>>(),
+            );
+
+            // 使用dot_product函数计算点积，并赋值给结果矩阵的对应元素
+            data[i * b.cols + j] = dot_product(a_row, b_col)?;
         }
     }
     Ok(Matrix {
