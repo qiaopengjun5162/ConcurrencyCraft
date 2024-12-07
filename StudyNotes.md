@@ -8,7 +8,8 @@ pre-commit install
 cargo add anyhow
 cargo deny init
 cargo deny check
-➜ cargo run --example thread1 --quiet
+cargo run --example thread1 --quiet
+touch examples/matrix.rs
 ```
 
 ## 参考
