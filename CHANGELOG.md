@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 ---
+## [0.1.3-metrics](https://github.com/qiaopengjun5162/ConcurrencyCraft/compare/v0.1.2-matrix-refactor..v0.1.3-metrics) - 2024-12-08
+
+### Features
+
+- update metrics - ([8745721](https://github.com/qiaopengjun5162/ConcurrencyCraft/commit/874572105eae77d110fe043d8ddc7b1cbfd1a301)) - QiaoPengjun5162
+- support concurrent metrics - ([635c55f](https://github.com/qiaopengjun5162/ConcurrencyCraft/commit/635c55f417b4cd10161de9751fa78226baa988f6)) - QiaoPengjun5162
+
+### Other
+
+- Merge pull request #4 from qiaopengjun5162/feature/metrics
+
+support concurrent metrics - ([bea00ac](https://github.com/qiaopengjun5162/ConcurrencyCraft/commit/bea00acfb1b1882ba3b57fc0d5f800fa46296870)) - Paxon Qiao 乔鹏军
+
+---
+## [0.1.2-matrix-refactor](https://github.com/qiaopengjun5162/ConcurrencyCraft/compare/v0.1.1-matrix..v0.1.2-matrix-refactor) - 2024-12-07
+
+### Other
+
+- Merge pull request #3 from qiaopengjun5162/feature/matrix
+
+refactor: make matrix multiply to be concurreny with threads - ([5fea66a](https://github.com/qiaopengjun5162/ConcurrencyCraft/commit/5fea66a8f4a101a68a33f5ba5772d2d5845610c6)) - Paxon Qiao 乔鹏军
+
+### Refactoring
+
+- make matrix multiply to be concurreny with threads - ([89cdfda](https://github.com/qiaopengjun5162/ConcurrencyCraft/commit/89cdfda713617ff8d7146597d16c64ff59aa7474)) - QiaoPengjun5162
+
+---
 ## [0.1.1-matrix](https://github.com/qiaopengjun5162/ConcurrencyCraft/compare/v0.1.0-thread-1..v0.1.1-matrix) - 2024-12-07
 
 ### Features
