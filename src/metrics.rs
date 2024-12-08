@@ -1,31 +1,39 @@
 // metrics data structure
 // 基本功能： inc/dec/snapshot
 
-use std::collections::HashMap;
-
-#[derive(Debug, Default)]
+use anyhow::{anyhow, Result};
+use std::{
+    collections::HashMap,
+    sync::{Arc, Mutex},
+};
+#[derive(Debug, Clone, Default)]
 pub struct Metrics {
-    data: HashMap<String, i64>,
+    data: Arc<Mutex<HashMap<String, i64>>>,
 }
 
 impl Metrics {
     pub fn new() -> Self {
         Metrics {
-            data: HashMap::new(),
+            data: Arc::new(Mutex::new(HashMap::new())),
         }
     }
 
-    pub fn inc(&mut self, key: impl Into<String>) {
-        let count = self.data.entry(key.into()).or_insert(0);
+    pub fn inc(&self, key: impl Into<String>) -> Result<()> {
+        let mut data = self.data.lock().map_err(|e| anyhow!(e.to_string()))?;
+        let count = data.entry(key.into()).or_insert(0);
         *count += 1;
+        Ok(())
     }
 
-    pub fn dec(&mut self, key: impl Into<String>) {
-        let count = self.data.entry(key.into()).or_insert(0);
+    pub fn dec(&self, key: impl Into<String>) -> Result<()> {
+        let mut data = self.data.lock().map_err(|e| anyhow!(e.to_string()))?;
+        let count = data.entry(key.into()).or_insert(0);
         *count -= 1;
+        Ok(())
     }
 
-    pub fn snapshot(&self) -> HashMap<String, i64> {
-        self.data.clone()
+    pub fn snapshot(&self) -> Result<HashMap<String, i64>> {
+        let data = self.data.lock().map_err(|e| anyhow!(e.to_string()))?;
+        Ok(data.clone())
     }
 }
