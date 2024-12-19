@@ -1,0 +1,22 @@
+### redis server
+GET http://localhost:63799
+
+### redis set
+POST http://localhost:63799
+Content-Type: application/json
+
+{
+    "command": "SET",
+    "key": "key1",
+    "value": "value1"
+}
+
+### redis get
+POST http://localhost:63799
+Content-Type: application/json
+
+{
+
+    "command": "GET",
+    "key": "key1"
+}
